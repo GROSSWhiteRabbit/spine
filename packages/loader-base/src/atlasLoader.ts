@@ -101,7 +101,9 @@ export const makeSpineTextureAtlasLoaderFunctionFromPixiLoaderObject = (loader: 
 
         const url = utils.path.normalize([...atlasBasePath.split(utils.path.sep), pageName].join(utils.path.sep));
 
-        const texture = await loader.load<Texture>({ src: url, data: imageMetadata });
+        const texture = await loader.load<Texture>({ src: url, data: imageMetadata }).catch(() => {
+            textureLoadedCallback(null);
+        });
 
         textureLoadedCallback(texture.baseTexture);
     };
